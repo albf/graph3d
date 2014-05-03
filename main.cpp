@@ -3,7 +3,6 @@
 #include "viewer.h"
 #include "lightsMaterials.h"
 #include "fishA.h"
-#include "cylinder.h"
 
 int main(int argc, char** argv)
 {
