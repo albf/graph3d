@@ -11,7 +11,7 @@ Cam::~Cam() {
 
 // Resets the camera position to default position and tilt
 void Cam::reset(void) {
-    distance=12;
+    distance=15;
     verticalTilt=0;
     horizontalAngle=0;
     

@@ -65,7 +65,7 @@ void Viewer::init() {
     }
 
     // Turn on timer, each 500 ms timerEvent will be called
-    startTimer(500);
+    startTimer(100);
 }
 
 // Timed event, called at the time defined in viewer::init() functio.)

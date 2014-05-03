@@ -20,20 +20,16 @@ int main(int argc, char** argv) {
     //viewer.addRenderable(new LightsMaterials());
     fishA fish;
     fish.printXYZ();
-    viewer.addRenderable(&fish);
     
-        GLfloat x = (((GLfloat)rand() / (GLfloat)RAND_MAX) * 50) - 25;
-	GLfloat z = (((GLfloat)rand() / (GLfloat)RAND_MAX) * 50) - 25;
-
-	// the height is a bit different, differnt objects need a different
-	// offset above the sea floor
-       	GLfloat y = (((GLfloat)rand() / (GLfloat)RAND_MAX) * 25) - 26;
-
-        //fish.x = x;
-        //fish.y = y;
-        //fish.z = z;
-        
-        fish.printXYZ();
+    fishA fish2;
+    fish2.x=0;
+    fish2.y=5;
+    fish2.z=0;
+    
+    viewer.addRenderable(&fish);
+    viewer.addRenderable(&fish2);
+    
+   //fish.printXYZ();
         
     viewer.setWindowTitle("viewer");
     // Make the viewer window visible on screen.

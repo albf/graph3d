@@ -12,19 +12,20 @@ GLfloat fishA::material[4] = {1.f, 1.f, 1.f, 1.f};
 GLfloat fishA::shininess = 120.f;
 
 fishA::fishA() {
+        // Tail Animation
     	tailAngle = 0.0f;
 	tailAngleCutOff = 20.0f;
 	tailAngleInc = 1.0f;
+        
+        // Fish Speed
+        xInc = 0.1;
+        yInc = 0;
+        zInc = 0.05;
 }
 
 void fishA::draw(void) {
-    // work out how much to advance the fish by relative to its orientation
-    GLfloat xInc = cos(ry * (3.14156) / 180) / 10.0f;
-    GLfloat zInc = sin(ry * (3.14156) / 180) / 10.0f;
-
-    // the floor is 70.0 x 70.0, but i want to keep the fish inside a
-    // 65.0 x 65.0 area, so work out the circular boundaries if the fish goes
-    // outside of this area
+    
+    // Limits for the fish swimming
     if (x < -35) x += 65.f;
     if (x > 35) x -= 65.f;
     if (z < -35) z += 65.f;
@@ -32,8 +33,12 @@ void fishA::draw(void) {
 
     // increment the fish position
     x -= xInc;
+    y += yInc;
     z += zInc;
 
+    glPushMatrix();
+    glTranslatef(x,y,z);
+    
     // set up the material properties (only front needs to be set)
     glMaterialfv(GL_FRONT, GL_AMBIENT, material);
     glMaterialfv(GL_FRONT, GL_DIFFUSE, material);
@@ -94,7 +99,8 @@ void fishA::draw(void) {
     glDisableClientState(GL_COLOR_ARRAY);
     glDisableClientState(GL_NORMAL_ARRAY);
     glDisable(GL_TEXTURE_2D);
-
+    
+    glPopMatrix();
 }
 
 void fishA::drawSide(void) {

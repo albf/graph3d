@@ -12,19 +12,10 @@ public:
     virtual void draw();
     void printXYZ(void);
 
-    GLfloat x; /// x position of object
-    GLfloat y; /// y position of object
-    GLfloat z; /// z position of object
-
-    GLfloat rx; /// x rotation angle of object
-    GLfloat ry; /// y rotation angle of object
-    GLfloat rz; /// z rotation angle of object
-
-    GLfloat sx; /// x scale of object
-    GLfloat sy; /// y scale of object
-    GLfloat sz; /// z scale of object
-
-    bool isList; /// is this a display list object?
+    GLfloat x, y, z; // position of object
+    GLfloat rx,ry, rz; // rotation angle of object
+    GLfloat sx,sy,sz; // scale of object
+    GLfloat xInc, yInc, zInc;   // speed of object
 
     static unsigned int textures[2]; /// texture id array
     static GLUquadricObj *quadric; /// quadric object for all renderables
