@@ -8,6 +8,9 @@
 
 #include "viewer.h"
 #include "renderable.h"
+#include <iostream>
+
+using namespace std;
 
 Viewer::Viewer() {
 }
@@ -44,14 +47,26 @@ void Viewer::init()
 	else
 		glDisable(GL_LIGHTING);
 	
-	setSceneRadius(10.0f);
-
+	//setSceneRadius(0.0f);
+        //resizeWindow(50, 50);
+        camera.reset();
+        camera.position();
+   
 	list<Renderable *>::iterator it;
 	for (it = renderableList.begin(); it != renderableList.end(); ++it) {
 	        (*it)->init(*this);
 	}
+        
+        // Turn on timer, each 1000 ms timerEvent will be called
+        startTimer(1000);
 }
 
+// Timed event, called at the time defined in viewer::init() functio.)
+void Viewer::timerEvent(QTimerEvent *e)
+{
+    Q_UNUSED(e);
+    animate();
+}
 
 void Viewer::draw()
 {  
@@ -65,6 +80,7 @@ void Viewer::draw()
 
 void Viewer::animate()
 {
+    cout << "animate " << endl;
 	// animate every objects in renderableList
 	list<Renderable *>::iterator it;
 	for(it = renderableList.begin(); it != renderableList.end(); ++it) {
@@ -122,6 +138,35 @@ void Viewer::keyPressEvent(QKeyEvent *e)
 	}
 	updateGL();
 }
+
+/* void setupViewVolume(void)
+{
+	// work out the aspect ratio for width and height
+	//GLfloat aspect = (GLfloat)1024 / (GLfloat)height;
+    GLfloat aspect = 1;
+	//GLfloat iaspect = (GLfloat)height / (GLfloat)width;
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	gluPerspective(-45.0f, 1.0f, 1.0f, 250.0f);
+	
+	glMatrixMode(GL_MODELVIEW);
+} */
+
+void Viewer::resizeWindow(int w, int h) {
+	glViewport(0, 0, w, h);
+        //width = w;
+	//height = h;
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+
+	
+	glMatrixMode(GL_MODELVIEW);
+}
+
 
 
 QString Viewer::helpString() const

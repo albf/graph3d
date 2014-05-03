@@ -6,24 +6,28 @@
  * The documentation of the QGLViewer library can be found at the following 
  * url: http://www.libqglviewer.com
  */
+#pragma once
 
 #ifndef _VIEWER_
 #define _VIEWER_
 
 #include <QGLViewer/qglviewer.h>
 #include <list>
+#include "cam.h"
+//#include <QWidget>
+
 using namespace std;
 
 class Renderable;
 
-
 class Viewer : public QGLViewer
 {
 	public :
-	        
 		Viewer();
 		virtual ~Viewer();
 		void addRenderable(Renderable *r);
+                void resizeWindow(int w, int h);
+                Cam camera;
 
 /* Scene methods */
 	protected :
@@ -35,15 +39,16 @@ class Viewer : public QGLViewer
 		
 		/// Draw every objects of the scene
 		virtual void draw();
-		
-		/// Animate every objects of the scene
-		virtual void animate();
 
 
 /* Viewing parameters */
 	protected :
 		bool toogleWireframe;
 		bool toogleLight;
+                int width, height;
+                
+                /// Animate every objects of the scene
+		virtual void animate();
 
 		/// Handle keyboard events specifically
 		virtual void keyPressEvent(QKeyEvent *e);
@@ -53,6 +58,8 @@ class Viewer : public QGLViewer
 		
 		/// Draw every objects of the scene
 		virtual QString helpString() const;
+                
+                void timerEvent(QTimerEvent *e);
 };
 
 #endif
