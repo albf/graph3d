@@ -12,6 +12,9 @@ GLfloat fishA::material[4] = {1.f, 1.f, 1.f, 1.f};
 GLfloat fishA::shininess = 120.f;
 
 fishA::fishA() {
+    	tailAngle = 0.0f;
+	tailAngleCutOff = 20.0f;
+	tailAngleInc = 1.0f;
 }
 
 void fishA::draw(void) {
@@ -98,6 +101,13 @@ void fishA::drawSide(void) {
     glDrawArrays(GL_TRIANGLES, 0, 3 * 2);
     glDrawArrays(GL_QUADS, 6, 4 * 6);
     glDrawArrays(GL_TRIANGLES, 6 + 4 * 6, 3 * 5);
+}
+
+void fishA::printXYZ(void) {
+    std::cout << "x " << x << std::endl;
+    std::cout << "y " << y << std::endl;
+    std::cout << "z " << z << std::endl;
+    std::cout << std::endl;
 }
 
 GLfloat fishA::vertex[] ={

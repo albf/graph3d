@@ -10,6 +10,7 @@ class fishA : public Renderable {
 public:
     fishA();
     virtual void draw();
+    void printXYZ(void);
 
     GLfloat x; /// x position of object
     GLfloat y; /// y position of object

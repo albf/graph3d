@@ -7,7 +7,7 @@ HEADERS  = *.h
 SOURCES  = *.cpp
 
 macx:LIBS *= -framework Glut
-linux-g++*:LIBS *= -lglut
+linux-g++*:LIBS *= -lglut -lGLU
 
 exists( /usr/lib/libqglviewer-qt4.so) |
 exists( /usr/lib/x86_64-linux-gnu/libqglviewer-qt4.so ) {

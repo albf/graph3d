@@ -28,6 +28,11 @@ class Viewer : public QGLViewer
 		void addRenderable(Renderable *r);
                 void resizeWindow(int w, int h);
                 Cam camera;
+                	
+        	static GLfloat position1[4];
+                static GLfloat direction1[4];
+            	static GLfloat spotAngle;
+                static GLfloat position0[4];
 
 /* Scene methods */
 	protected :
@@ -60,6 +65,8 @@ class Viewer : public QGLViewer
 		virtual QString helpString() const;
                 
                 void timerEvent(QTimerEvent *e);
+                
+                void clear();
 };
 
 #endif
