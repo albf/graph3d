@@ -2,6 +2,7 @@
 #include "viewer.h"
 #include "lightsMaterials.h"
 #include "fishA.h"
+#include "fishB.h"
 #include "unistd.h"
 #include <iostream>
 
@@ -18,7 +19,7 @@ int main(int argc, char** argv) {
 
     // build your scene here
     //viewer.addRenderable(new LightsMaterials());
-    fishA fish;
+    fishB fish;
     fish.printXYZ();
     
     fishA fish2;
