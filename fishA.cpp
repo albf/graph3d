@@ -18,9 +18,9 @@ fishA::fishA() {
 	tailAngleInc = 1.0f;
         
         // Fish Speed
-        xInc = 0.1;
-        yInc = 0;
-        zInc = 0.05;
+        xInc = 0.0;
+        yInc = -0.1;
+        zInc = 0.0;
 }
 
 void fishA::draw(void) {
@@ -38,6 +38,9 @@ void fishA::draw(void) {
 
     glPushMatrix();
     glTranslatef(x,y,z);
+    getCrossProduct(xInc,yInc,zInc,1,0,0);        // get cross product
+    std::cout << "getangle: " << getAngle(xInc,yInc,zInc,0,0,1) << std::endl;   // debug
+    glRotatef(getAngle(1,0,0,xInc,yInc,zInc), xcp, ycp, zcp);    // rotate to look to where it is moving
     
     // set up the material properties (only front needs to be set)
     glMaterialfv(GL_FRONT, GL_AMBIENT, material);
@@ -114,6 +117,23 @@ void fishA::printXYZ(void) {
     std::cout << "y " << y << std::endl;
     std::cout << "z " << z << std::endl;
     std::cout << std::endl;
+}
+
+float fishA::vectorDistance(float x, float y, float z) {
+    return (float)sqrt((x*x)+(y*y)+(z*z));
+}
+
+float fishA::getAngle(float x, float y, float z, float a, float b, float c) {
+    float dot_product = (x*a) + (y*b) + (z*c);
+    float div = vectorDistance(x,y,z)*vectorDistance(a,b,c);
+    float arc = (float) acos(dot_product/div);
+    return arc* 180.0 / PI;
+}
+
+void fishA::getCrossProduct(float x, float y, float z, float a, float b, float c) {
+    xcp = (y*c)-(z*b);
+    ycp = (z*a)-(x*c);
+    zcp = (x*b)-(y*a);
 }
 
 GLfloat fishA::vertex[] ={

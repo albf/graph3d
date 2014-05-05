@@ -27,8 +27,21 @@ int main(int argc, char** argv) {
     fish2.y=5;
     fish2.z=0;
     
+    fishB fish3;
+    fishB fish4;
+    
+    fish3.x=0;
+    fish3.y=0;
+    fish3.z=0;
+    
+    fish4.x=0;
+    fish4.y=-1;
+    fish4.z=0;
+    
     viewer.addRenderable(&fish);
     viewer.addRenderable(&fish2);
+    viewer.addRenderable(&fish3);
+    viewer.addRenderable(&fish4);
     
    //fish.printXYZ();
         

@@ -5,6 +5,7 @@
 #include <iostream>
 #include <stdio.h>
 #define FISH_TEXTURE 2
+#define PI 3.14159
 
 class fishA : public Renderable {
 public:
@@ -16,6 +17,8 @@ public:
     GLfloat rx,ry, rz; // rotation angle of object
     GLfloat sx,sy,sz; // scale of object
     GLfloat xInc, yInc, zInc;   // speed of object
+    float xcp, ycp, zcp;        // Variables for cross-product
+
 
     static unsigned int textures[2]; /// texture id array
     static GLUquadricObj *quadric; /// quadric object for all renderables
@@ -32,6 +35,9 @@ private:
     static GLfloat shininess;
 
     void drawSide();
+    float vectorDistance(float x, float y, float z);
+    float getAngle(float x, float y, float z, float a, float b, float c);
+    void getCrossProduct(float x, float y, float z, float a, float b, float c);
 
 };
 

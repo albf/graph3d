@@ -4,20 +4,19 @@
 #include <GLUT/glut.h>
 #endif
 
-#define FOV_RADIUS 3           // Radius of field of view
-#define FOV_ANGLE 110          // Radius of field of view angle
 
 #include "fishB.h"
 #include "math.h"
+#include <iostream>
 
 fishB::fishB() {
     x = 1;
     y = 1;
     z = 1;
 
-    xInc = 0;
-    yInc = -0.1;
-    zInc = 0;
+    xInc = 0.1;
+    yInc = 0.1;
+    zInc = 0.0;
     
     angle = 40;
     Autorun = 0;
@@ -39,8 +38,10 @@ void fishB::draw(void) {
     z += zInc;
   glPushMatrix();
 
-  glTranslatef(x,y,z);
-  glRotatef(90, 1,0,0);     // correction
+  glTranslatef(x,y,z);                          // move to where it is right now
+  getCrossProduct(xInc,yInc,zInc,0,0,-1);        // get cross product
+  //    std::cout << "getangle: " << getAngle(xInc,yInc,zInc,0,0,1) << std::endl;   // debug
+  glRotatef(getAngle(xInc,yInc,zInc,0,0,-1), xcp, ycp, zcp);    // rotate to look to where it is moving
   
   glEnable(GL_LIGHTING);
   
@@ -81,13 +82,13 @@ void fishB::draw(void) {
   glDisable(GL_LIGHTING);
 
   // Radius of influence
-  if ( true ) {
+  if ( false ) {
     glColor3f( 0.2, 0.2, 0.2 );
     glutWireSphere(FOV_RADIUS, 10, 3 );
   }
   
   // Draw Axis
-  if ( true ) {
+  if ( false ) {
     glColor3f( 1, 0, 0 );	
     glBegin( GL_LINES );
     glVertex3f(0,0,0);
@@ -108,7 +109,7 @@ void fishB::draw(void) {
   }
   
   // Draw Blind Cone
-  if ( true ) {
+  if ( false ) {
     glPushMatrix();
     glTranslatef( 0, 0, -FOV_RADIUS );
     glutWireCone( FOV_RADIUS * tan( ( 180 - FOV_ANGLE )* PI / 180.0 ), FOV_RADIUS, 4, 1 );
@@ -123,4 +124,21 @@ void fishB::printXYZ(void) {
     std::cout << "y " << y << std::endl;
     std::cout << "z " << z << std::endl;
     std::cout << std::endl;
+}
+
+float fishB::vectorDistance(float x, float y, float z) {
+    return (float)sqrt((x*x)+(y*y)+(z*z));
+}
+
+float fishB::getAngle(float x, float y, float z, float a, float b, float c) {
+    float dot_product = (x*a) + (y*b) + (z*c);
+    float div = vectorDistance(x,y,z)*vectorDistance(a,b,c);
+    float arc = (float) acos(dot_product/div);
+    return arc* 180.0 / PI;
+}
+
+void fishB::getCrossProduct(float x, float y, float z, float a, float b, float c) {
+    xcp = (y*c)-(z*b);
+    ycp = (z*a)-(x*c);
+    zcp = (x*b)-(y*a);
 }
