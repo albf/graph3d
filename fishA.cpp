@@ -99,7 +99,7 @@ void fishA::draw(void) {
     glVertexPointer(3, GL_FLOAT, 0, vertex);
     glNormalPointer(GL_FLOAT, 0, normal);
     glTexCoordPointer(2, GL_FLOAT, 0, texels);
-    GLfloat Colours[] = { 0, 1, 1};
+    GLfloat Colours[] = { 1, 0, 0};
     glColorPointer(3, GL_FLOAT, 0, Colours);
 
     // enable vertex arrays
@@ -147,30 +147,6 @@ void fishA::drawSide(void) {
     glDrawArrays(GL_TRIANGLES, 0, 3 * 2);
     glDrawArrays(GL_QUADS, 6, 4 * 6);
     glDrawArrays(GL_TRIANGLES, 6 + 4 * 6, 3 * 5);
-}
-
-void fishA::printXYZ(void) {
-    std::cout << "x " << x << std::endl;
-    std::cout << "y " << y << std::endl;
-    std::cout << "z " << z << std::endl;
-    std::cout << std::endl;
-}
-
-float fishA::vectorDistance(float x, float y, float z) {
-    return (float)sqrt((x*x)+(y*y)+(z*z));
-}
-
-float fishA::getAngle(float x, float y, float z, float a, float b, float c) {
-    float dot_product = (x*a) + (y*b) + (z*c);
-    float div = vectorDistance(x,y,z)*vectorDistance(a,b,c);
-    float arc = (float) acos(dot_product/div);
-    return arc* 180.0 / PI;
-}
-
-void fishA::getCrossProduct(float x, float y, float z, float a, float b, float c) {
-    xcp = (y*c)-(z*b);
-    ycp = (z*a)-(x*c);
-    zcp = (x*b)-(y*a);
 }
 
 GLfloat fishA::vertex[] ={

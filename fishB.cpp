@@ -28,9 +28,11 @@ fishB::fishB(float posx, float posy, float posz,float velx, float vely, float ve
 }
 
 void fishB::animate(void) {
-    xInc = xSpeed * cos(deg2rad((float) time));
-    yInc = ySpeed * cos(deg2rad((float) time));
-    zInc = zSpeed * cos(deg2rad((float) time));
+    if (animation = 1) {
+        xInc = xSpeed * cos(deg2rad((float) time));
+        yInc = ySpeed * cos(deg2rad((float) time));
+        zInc = zSpeed * cos(deg2rad((float) time));
+    }
 }
 
 void fishB::draw(void) {
@@ -39,7 +41,7 @@ void fishB::draw(void) {
         time=0;
     // Draw Actual "Fish"
     
-    printXYZInc();
+    //printXYZInc();
     
     glColor3f(colour[0], colour[1], colour[2]);
 
@@ -130,28 +132,4 @@ void fishB::draw(void) {
     }
 
     glPopMatrix();
-}
-
-void fishB::printXYZ(void) {
-    std::cout << "x " << x << std::endl;
-    std::cout << "y " << y << std::endl;
-    std::cout << "z " << z << std::endl;
-    std::cout << std::endl;
-}
-
-float fishB::vectorDistance(float x, float y, float z) {
-    return (float)sqrt((x*x)+(y*y)+(z*z));
-}
-
-float fishB::getAngle(float x, float y, float z, float a, float b, float c) {
-    float dot_product = (x*a) + (y*b) + (z*c);
-    float div = vectorDistance(x,y,z)*vectorDistance(a,b,c);
-    float arc = (float) acos(dot_product/div);
-    return arc* 180.0 / PI;
-}
-
-void fishB::getCrossProduct(float x, float y, float z, float a, float b, float c) {
-    xcp = (y*c)-(z*b);
-    ycp = (z*a)-(x*c);
-    zcp = (x*b)-(y*a);
 }

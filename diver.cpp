@@ -1,7 +1,10 @@
-#include "diver.h"
-#include <iostream>
-#include <cstdlib>
+#ifndef __APPLE__
+#include <GL/glut.h>
+#else
+#include <GLUT/glut.h>
+#endif
 
+#include "diver.h"
 
 void setcolor(float c[],int r, int g, int b) {
   c[0] = r/(double)255;
@@ -35,7 +38,11 @@ Diver::Diver(double taille){
 	setcolor(bodyc,rand()%255,rand()%255,rand()%255);
 	setcolor(footc,rand()%255,rand()%255,rand()%255);
 	setcolor(legc,rand()%255,rand()%255,rand()%255);
-
+        
+        time=0;
+        animation=1;
+        x = 1;          y = 1;          z = 1;
+        xInc = 0.0;     yInc = -0.1;    zInc = 0.0;
 }
 
 /* Change coordonate system such that :
@@ -43,7 +50,6 @@ Diver::Diver(double taille){
  * the vector v define by p1 et p2(x2,y2,z2) is the new Z-axis */
 void alignZaxisNoRot(float x1, float y1, float z1, 
 				float x2,float y2, float z2) {
-
 
 
 	/* vector v = p2-p1 */
@@ -78,9 +84,10 @@ void Diver::draw() {
 
 	glPushMatrix();
 
-	// alignZaxis(0, 0, 0,
-	//            Velocity[0], Velocity[1], Velocity[2]);
-
+//        alignZaxisNoRot( 0,0,0,
+//                    2,1,1);
+        
+        
 	glRotated(-90, 1, 0, 0); // Le bonhomme est allongé
 	glTranslatef(0, 0, cuisse + tibiat+main); // On fait le haut du corps
 
@@ -179,41 +186,4 @@ void Diver::draw() {
 
 
 	glPopMatrix(); // Retour à rien du tout...
-}
-
-
-void Diver::majPos(qglviewer::Vec newPos){
-
-	double alpha = 0.2;
-
-	PositionPred[0] = PositionPred[0] - alpha * (PositionPred[0] - newPos);
-}
-
-
-qglviewer::Vec Diver::getPosSmooth(){
-
-	return PositionPred[0];
-
-}
-
-
-void Diver::majVel(qglviewer::Vec newVel){
-
-	double alpha = 0.2;
-
-	VelPred[0] = VelPred[0] - alpha * (VelPred[0] - newVel);
-	
-}
-
-
-void Diver::majPosBras(double val){
-	angle_bras_mv = 30*cos(val);
-}
-
-
-
-
-qglviewer::Vec Diver::getVelSmooth(){
-
-	return VelPred[0];
 }

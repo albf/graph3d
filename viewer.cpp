@@ -66,6 +66,7 @@ void Viewer::init() {
     //resizeWindow(50, 50);
     camera.reset();
     camera.position();
+    camera.dec(10);
 
     list<Renderable *>::iterator it;
     for (it = renderableList.begin(); it != renderableList.end(); ++it) {
@@ -109,7 +110,7 @@ void Viewer::draw() {
     //glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, direction1);
     
     camera.position();
-    camera.dec(0.03);
+    //camera.dec(0.03);
     //glLightfv(GL_LIGHT0, GL_POSITION, position0);
     
 

@@ -12,22 +12,9 @@ public:
     fishA();
     fishA(float posx, float posy, float posz,float velx, float vely, float velz);
     virtual void draw();
-    void printXYZ(void);
-    
-    void setPos(float nx, float ny, float nz) {
-        x=nx; y=ny; z=nz;
-    }
-    
-    void setSpeed(float nx, float ny, float nz) {
-        xInc=nx; yInc=ny; zInc=nz;
-    }
 
-    GLfloat x, y, z; // position of object
     GLfloat rx,ry, rz; // rotation angle of object
     GLfloat sx,sy,sz; // scale of object
-    GLfloat xInc, yInc, zInc;   // speed of object
-    float xcp, ycp, zcp;        // Variables for cross-product
-
 
     static unsigned int textures[2]; /// texture id array
     static GLUquadricObj *quadric; /// quadric object for all renderables
@@ -44,10 +31,6 @@ private:
     static GLfloat shininess;
 
     void drawSide();
-    float vectorDistance(float x, float y, float z);
-    float getAngle(float x, float y, float z, float a, float b, float c);
-    void getCrossProduct(float x, float y, float z, float a, float b, float c);
-
 };
 
 #endif

@@ -5,6 +5,7 @@
 #include "fishB.h"
 #include "crab.h"
 #include "seaFloor.h"
+#include "diver.h"
 #include "unistd.h"
 #include <iostream>
 
@@ -57,6 +58,8 @@ int main(int argc, char** argv) {
     //viewer.addRenderable(&crabA);
     
    //fish.printXYZ();
+    
+    viewer.addRenderable(new Diver(5));
         
     viewer.setWindowTitle("viewer");
     // Make the viewer window visible on screen.

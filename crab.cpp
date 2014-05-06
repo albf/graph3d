@@ -90,30 +90,6 @@ void crab::draw(void) {
     glPopMatrix();
 }
 
-void crab::printXYZ(void) {
-    std::cout << "x " << x << std::endl;
-    std::cout << "y " << y << std::endl;
-    std::cout << "z " << z << std::endl;
-    std::cout << std::endl;
-}
-
-float crab::vectorDistance(float x, float y, float z) {
-    return (float)sqrt((x*x)+(y*y)+(z*z));
-}
-
-float crab::getAngle(float x, float y, float z, float a, float b, float c) {
-    float dot_product = (x*a) + (y*b) + (z*c);
-    float div = vectorDistance(x,y,z)*vectorDistance(a,b,c);
-    float arc = (float) acos(dot_product/div);
-    return arc* 180.0 / PI;
-}
-
-void crab::getCrossProduct(float x, float y, float z, float a, float b, float c) {
-    xcp = (y*c)-(z*b);
-    ycp = (z*a)-(x*c);
-    zcp = (x*b)-(y*a);
-}
-
 // Draws a leg using an angle between the two bones
 void crab::drawLeg(GLfloat jointAngle, GLfloat jointOffset)
 {
