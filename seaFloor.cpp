@@ -18,7 +18,7 @@ seaFloor::seaFloor() {
 
 void seaFloor::init(Viewer &v) {
      /* read in image for texture */
-    grid = readPPMfile("grid.ppm");
+    grid = readPPMfile("seafloor.ppm");
     /* create a texture object */
     glGenTextures(1, &gridTex);
     /* make it the current texture */

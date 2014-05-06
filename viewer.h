@@ -41,6 +41,9 @@ class Viewer : public QGLViewer
                 int time;
                 int bubble_frequency;
                 float bubble_space;
+                
+                // Record Variables
+                bool toggleRecord;
 
 /* Scene methods */
 	protected :

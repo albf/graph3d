@@ -98,9 +98,10 @@ void Viewer::init() {
     addRenderable(&diver); 
     bubble_space=diver.ratio/3;
     
-    time=0;
+    time=0;             // to help in the animation
+    toggleRecord=false; // for saving snapshots
     
-    startTimer(50);
+    startTimer(50);     // timer to come back
 }
 
 // Timed event, called at the time defined in viewer::init() functio.)
@@ -139,7 +140,9 @@ void Viewer::draw() {
         (*it)->draw();
     }
 
-    swapBuffers();          // clean buffers
+    swapBuffers();                  // clean buffers
+    
+    if(toggleRecord) saveSnapshot(); // save snapshot if on
 }
 
 void Viewer::animate() {
@@ -196,7 +199,10 @@ void Viewer::keyPressEvent(QKeyEvent *e) {
             glDisable(GL_LIGHTING);
         // ... and so on with all events to handle here!
 
-    } else {
+    } 
+    else if (e->key()==Qt::Key_R) { 
+        toggleRecord = !toggleRecord; }
+    else {
         // if the event is not handled here, process it as default
         QGLViewer::keyPressEvent(e);
     }

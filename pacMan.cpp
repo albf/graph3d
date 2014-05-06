@@ -10,6 +10,7 @@ pacMan::pacMan(float posx, float posy, float posz, float velx, float vely, float
     modeTime=0;
 }
 
+// Just update the time, to know how to move the mouth
 void pacMan::animate() {
     if(modeTime==0) {
         time++;
@@ -23,35 +24,46 @@ void pacMan::animate() {
     }
 }
 
+// Draw function
 void pacMan::draw() {
-    x += xInc;
+    x += xInc;  // update coordinates
     y += yInc;
     z += zInc;
     
-    glColor4f(1, 1, 0, 1);
+    glColor4f(1, 1, 0, 1);  // yellow color
     
     glPushMatrix();
-    glTranslatef(x, y, z);
-    glScalef(scale, scale, scale);
     
-    glPushMatrix(); // first side of the pacman
-    glRotatef(-time*5,1,0,0);
-    drawHalfSphere(80, 80, 1);
+    glTranslatef(x, y, z);  // move pacman
+    getCrossProduct(xInc, yInc, zInc, 0, 0, 1); // get cross product
+    glRotatef(getAngle(xInc, yInc, zInc, 0, 0, 1), xcp, ycp, zcp); // rotate to look to where it is moving
     
-    glColor4f(0, 0, 0, 0.8);
-    glTranslatef(-0.5,0.5,0.8);
+    glScalef(scale, scale, scale);  // scale
+    
+    // first side of the pacman
+    glPushMatrix(); 
+    // First Half
+    glRotatef(-time*5,1,0,0);   // rotation of the first side
+    drawHalfSphere(80, 80, 1);  // draw it's first half
+    
+    // First Eye
+    glColor4f(0, 0, 0, 0.8);    
+    glTranslatef(-0.5,0.5,0.8); // go to the position
     glScalef(0.75/scale, 0.75/scale, 0.75/scale);
-    drawHalfSphere(80,80,2);
+    drawHalfSphere(80,80,2);    // draw a full sphere this time
     
+    // Second Eye
     glScalef(scale/0.75, scale/0.75, scale/0.75);
-    glTranslatef(+1,0,0);
+    glTranslatef(+1,0,0);   // go to the position
     glScalef(0.75/scale, 0.75/scale, 0.75/scale);
-    drawHalfSphere(80,80,2);
+    drawHalfSphere(80,80,2);    // draw a full sphere thi time
             
     glPopMatrix(); // end of first side of pacman
-
+    
     glColor4f(1, 1, 0, 1);
     glPushMatrix(); // second side of the pacman
+    
+    // Second Half
     glRotatef(180,0,0,1);
     glRotatef(-time*5,1,0,0);
     drawHalfSphere(80, 80, 1);
@@ -60,6 +72,8 @@ void pacMan::draw() {
     glPopMatrix();
 }
 
+/* Draw half of sphere : Took TP1 and executed just half of the for-loop if sides=1,
+ * or the full loop if sides=2 */
 static void drawHalfSphere(int lats, int longs, int sides) {
         int i, j;
         for(i = 0; i <= lats; i++) {
