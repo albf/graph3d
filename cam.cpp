@@ -14,6 +14,7 @@ void Cam::reset(void) {
     distance=35;
     verticalTilt=0;
     horizontalAngle=-5;
+    posx=0;
     
 /*    glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -26,14 +27,13 @@ void Cam::reset(void) {
 // Zoom and spin is done by translate/rotate
 void Cam::position(void) {
     
-    printCamValues(); // Debug
+    // printCamValues(); // Debug
   
-    //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     // Reset transformations
     
     glLoadIdentity();
-    gluLookAt(0.0, 0.0, distance,
-            0.0, horizontalAngle, -1.0,
+    gluLookAt(posx, 5.0, distance,
+            angley, horizontalAngle, -1.0,
             0.0, 1.0+verticalTilt, 0.0);
 
     //distance = distance + 0.1;    // debug
@@ -49,6 +49,26 @@ void Cam::dec(float value) {
 // Increments the distance to origin (zoom out)
 void Cam::inc(float value) {
     distance+=value;
+}
+
+// Modify X position
+void Cam::decX(float value) {
+    posx-=value;
+}
+
+// Modify X position
+void Cam::incX(float value) {
+    posx+=value;
+}
+
+// Decrements the distance to origin (zoom in)
+void Cam::decAy(float value) {
+    angley-=value;
+}
+
+// Increments the distance to origin (zoom out)
+void Cam::incAy(float value) {
+    angley+=value;
 }
 
 // Adjusts the camera rotation around the Y axis

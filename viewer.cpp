@@ -17,6 +17,7 @@
 
 
 static GLfloat fogColor[4] = {0.0, 0.5, 0.55, 1.0};
+static Diver diver(5);
 
 using namespace std;
 
@@ -66,7 +67,7 @@ void Viewer::init() {
     //resizeWindow(50, 50);
     camera.reset();
     camera.position();
-    camera.dec(10);
+    //camera.dec(10);
 
     list<Renderable *>::iterator it;
     for (it = renderableList.begin(); it != renderableList.end(); ++it) {
@@ -83,10 +84,21 @@ void Viewer::init() {
     glFogf(GL_FOG_DENSITY, 0.01);
     glHint(GL_FOG_HINT, GL_NICEST);
     glEnable(GL_FOG);
-    
+
     //light 
     glEnable(GL_LIGHTING);
     //addRenderable(new Light());
+
+    // Blend enabled for the bubble
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    
+    // diver and bubble variables
+    bubble_frequency=10;        
+    addRenderable(&diver); 
+    bubble_space=diver.ratio/3;
+    
+    time=0;
     
     startTimer(50);
 }
@@ -100,38 +112,47 @@ void Viewer::timerEvent(QTimerEvent *e) {
 
 void Viewer::draw() {
     // draw every objects in renderableList
-    cout << "draw() " << endl;
+    cout << "draw() time: " << time << endl;
     glFlush();
     clear();
     
-    // Light -- (Temp?))
-    //glLightfv(GL_LIGHT1, GL_POSITION, position1);
-    //glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, spotAngle);
-    //glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, direction1);
+    if(time>=80 && time <=150) {
+        camera.dec(0.2);
+        camera.incAy(-0.50);
+        camera.incX(0.50);
+    }
     
-    camera.position();
-    //camera.dec(0.03);
-    //glLightfv(GL_LIGHT0, GL_POSITION, position0);
-    
+    if(time==130)
+        addRenderable(new pacMan(0,0,-15,0,0,+0.1,5));
 
+    
+    camera.position();      // sets camera
+    
+    // add bubble if it's time
+    if((time%bubble_frequency)==0)
+        addRenderable(new Bubble(diver.x+(((float)((float)rand()/(float)RAND_MAX)*bubble_space)-(bubble_space/2)), diver.y+(diver.ratio*1.1), diver.z, diver.ratio/20, diver.ratio/15));
+    
+    // cout << "bubble: " << ((rand()/RAND_MAX)*bubble_space)-(bubble_space/2) << endl; // debug
+    
     list<Renderable *>::iterator it;
     for (it = renderableList.begin(); it != renderableList.end(); ++it) {
         (*it)->draw();
     }
 
-    swapBuffers();   
+    swapBuffers();          // clean buffers
 }
 
 void Viewer::animate() {
     camera.position();
-    cout << "animate "  << endl;
+    // cout << "animate "  << endl;
     
     // animate every objects in renderableList
     list<Renderable *>::iterator it;
     for (it = renderableList.begin(); it != renderableList.end(); ++it) {
         (*it)->animate();
     }
-
+    
+    time++;
     draw();
     // this code might change if some rendered objets (stored as
     // attributes) need to be specifically updated with common

@@ -12,8 +12,6 @@
 class Diver : public Renderable {
 private:
     // Définition des tailles
-
-    double ratio;
     double corps;
     double tete;
     double main;
@@ -24,6 +22,7 @@ private:
     double tronc;
     double tibiat;
     double cuisse;
+    double mask;
 
     float bodyc[3];
     float skinc[3];
@@ -49,16 +48,24 @@ private:
     double angle_bras_mv;
 
     // Position and moviment
-    float x, y, z;              // For Movement
-    float xInc, yInc, zInc;     // Incremet of object
+    float xInc, yInc, zInc; // Incremet of object
     int animation;
     int time;
-
+    int stageLeg;
+    int stageLimit;
+    float speedLeg;
+    float speedLeg2;
+    
+    
+    void cylinder(int n, int arg, float mult, float v);    
 
 public:
-    Diver(double taille);
-
-    void draw();
+    Diver(double taille);    
+    virtual void draw();
+    virtual void animate();
+    
+    double ratio;       // utilisé pour les bubbles
+    float x, y, z;      // For Movement, utilisé pour les bubbles
 };
 
 #endif

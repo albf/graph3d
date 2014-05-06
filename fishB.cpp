@@ -28,6 +28,10 @@ fishB::fishB(float posx, float posy, float posz,float velx, float vely, float ve
 }
 
 void fishB::animate(void) {
+    time = time + 5; // updates time for animation
+    if (time > 70)
+        time = 0;
+
     if (animation = 1) {
         xInc = xSpeed * cos(deg2rad((float) time));
         yInc = ySpeed * cos(deg2rad((float) time));
@@ -36,12 +40,9 @@ void fishB::animate(void) {
 }
 
 void fishB::draw(void) {
-    time=time+5;         // updates time for animation
-    if(time>70)
-        time=0;
-    // Draw Actual "Fish"
+    // Draw fishB
     
-    //printXYZInc();
+    //printXYZInc();        // Debug
     
     glColor3f(colour[0], colour[1], colour[2]);
 

@@ -46,7 +46,7 @@ Bubble::Bubble(float posx, float posy, float posz, float size_average, float err
     yInc = 0.015;
     zInc = 0.0;
 
-    size = size_average+((rand()/RAND_MAX)*error);  // size of the bubble
+    size = size_average+((float)((float)rand()/(float)RAND_MAX)*error);  // size of the bubble
     time=0;
 
     // Animation A
@@ -60,7 +60,7 @@ Bubble::Bubble(float posx, float posy, float posz, float size_average, float err
     increase_speed=1;
     
     // Animation C
-    anim3Z = (rand()/RAND_MAX);
+    anim3Z = (float)((float)rand()/(float)RAND_MAX);
     anim3X = sqrt(1-(anim3Z*anim3Z));
     cycle_animate3=30;
     anim3Scale = size_average/5;
@@ -74,7 +74,6 @@ void Bubble::animate(void) {
             momentA = 1;
         else
             momentA = 0;
-        cout << "teste" << endl;
     }
 
     if (momentA == 0)
@@ -87,7 +86,7 @@ void Bubble::animate(void) {
     deltaX = anim3Scale * anim3X * (float)cos(deg2rad(angle));
     deltaZ = anim3Scale * anim3Z * (float)cos(deg2rad(angle));
 
-    cout << "deltax : " << deltaX << endl;
+    //cout << "deltax : " << deltaX << endl;
 }
 
 void Bubble::draw(void) {
@@ -106,7 +105,7 @@ void Bubble::draw(void) {
                 (1.0f+((double)(cycle_growth))*(double)size_variation)+(log((double)(increase_speed*(double)time))*(double)increase_factor));
     
     //double value = log((double)(increase_speed*(float)time));
-    cout << "Log : " << (double)log((double)(increase_speed*(double)time)) << endl;
+    //cout << "Log : " << (double)log((double)(increase_speed*(double)time)) << endl;
     
     glutSolidSphere(size, 20, 20);
     glPopMatrix();

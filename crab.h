@@ -5,7 +5,6 @@
 #include <iostream>
 #include <stdio.h>
 #include "math.h"
-#include <iostream>
 
 class crab : public Renderable {
 public:

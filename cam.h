@@ -13,6 +13,8 @@ private:
 	GLfloat verticalTilt;
 	GLfloat horizontalAngle;
 	GLfloat distance;
+        GLfloat posx;
+        GLfloat angley;
 
 public:
 	Cam();	// default constructor
@@ -27,6 +29,10 @@ public:
 	void anticlockwise(void);	// rotate scene anticlockwise
 	void tiltup(void);	// tilts camera upwards
 	void tiltdown(void);	// tilts camera downwards
+        void incX(float value);
+        void decX(float value);      
+        void decAy(float value);
+        void incAy(float value);       
 };
 
 #endif

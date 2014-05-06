@@ -44,7 +44,7 @@ void crab::animate(void) {
 }
 
 void crab::draw(void) {
-    // increment the fish position
+    // increment the crab position
     x += xInc;
     y += yInc;
     z += zInc;
@@ -56,8 +56,6 @@ void crab::draw(void) {
     //    std::cout << "getangle: " << getAngle(xInc,yInc,zInc,0,0,1) << std::endl;   // debug
     glRotatef(getAngle(xInc, yInc, zInc, 0, 0, 1), xcp, ycp, zcp); // rotate to look to where it is moving
     
-
-
     // get our pinky colour
     glColor3f(1.0f, 0.45f, 0.45f);
 

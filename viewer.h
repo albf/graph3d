@@ -14,6 +14,9 @@
 #include <QGLViewer/qglviewer.h>
 #include <list>
 #include "cam.h"
+#include "bubble.h"
+#include "diver.h"
+#include "pacMan.h"
 //#include <QWidget>
 
 using namespace std;
@@ -33,6 +36,11 @@ class Viewer : public QGLViewer
                 static GLfloat direction1[4];
             	static GLfloat spotAngle;
                 static GLfloat position0[4];
+                
+                // Bubbles Variables
+                int time;
+                int bubble_frequency;
+                float bubble_space;
 
 /* Scene methods */
 	protected :
