@@ -12,6 +12,8 @@ GLfloat fishA::material[4] = {1.f, 1.f, 1.f, 1.f};
 GLfloat fishA::shininess = 120.f;
 
 fishA::fishA() {
+    int i;
+    float cA, cB, cC;
         // Tail Animation
     	tailAngle = 0.0f;
 	tailAngleCutOff = 20.0f;
@@ -21,25 +23,47 @@ fishA::fishA() {
         xInc = 0.0;
         yInc = -0.1;
         zInc = 0.0;
+        
+        /*cA = 1*rand()/RAND_MAX;
+        cB = 1*rand()/RAND_MAX;
+        cC = 1*rand()/RAND_MAX;*/
+        cA = 0.2;
+        cB = 0.5;
+        cC = 0.7;
+        for(i=0; i<171; i=i+3) {
+        colours[i]=cA;
+        colours[i+1]=cB;
+        colours[i+2]=cC;
+        }
+        
+}
+
+fishA::fishA(float posx, float posy, float posz,float velx, float vely, float velz) {
+    int i;
+    
+    x = posx; y=posy; z=posz;
+    xInc = velx; yInc = vely; zInc = velz;
+    
+    // Tail Animation
+    tailAngle = 0.0f;
+    tailAngleCutOff = 20.0f;
+    tailAngleInc = 1.0f;    
+    
+    for(i=0; i<171; i++)
+        colours[i]=1*rand()/RAND_MAX;
+     
 }
 
 void fishA::draw(void) {
-    
-    // Limits for the fish swimming
-    if (x < -35) x += 65.f;
-    if (x > 35) x -= 65.f;
-    if (z < -35) z += 65.f;
-    if (z > 35) z -= 65.f;
-
     // increment the fish position
-    x -= xInc;
+    x += xInc;
     y += yInc;
     z += zInc;
 
     glPushMatrix();
     glTranslatef(x,y,z);
     getCrossProduct(xInc,yInc,zInc,1,0,0);        // get cross product
-    std::cout << "getangle: " << getAngle(xInc,yInc,zInc,0,0,1) << std::endl;   // debug
+    //std::cout << "getangle: " << getAngle(xInc,yInc,zInc,0,0,1) << std::endl;   // debug
     glRotatef(getAngle(1,0,0,xInc,yInc,zInc), xcp, ycp, zcp);    // rotate to look to where it is moving
     
     // set up the material properties (only front needs to be set)
@@ -48,6 +72,18 @@ void fishA::draw(void) {
     glMaterialfv(GL_FRONT, GL_SPECULAR, material);
     glMaterialf(GL_FRONT, GL_SHININESS, shininess);
 
+    glEnable(GL_LIGHTING);
+
+    GLfloat amDef[4], spDef[4];
+    GLfloat am[] = {1, 1, 0, 1};
+    GLfloat sp[] = {0, 0.5, 1, 0.5};
+
+    glGetMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, amDef);
+    glGetMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, spDef);
+
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, am);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, sp);
+    
     // enable texturing
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, FISH_TEXTURE);
@@ -57,13 +93,14 @@ void fishA::draw(void) {
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); 
 
     // set up vertex arrays
     glVertexPointer(3, GL_FLOAT, 0, vertex);
     glNormalPointer(GL_FLOAT, 0, normal);
     glTexCoordPointer(2, GL_FLOAT, 0, texels);
-    glColorPointer(3, GL_FLOAT, 0, colours);
+    GLfloat Colours[] = { 0, 1, 1};
+    glColorPointer(3, GL_FLOAT, 0, Colours);
 
     // enable vertex arrays
     glEnableClientState(GL_NORMAL_ARRAY);
@@ -101,7 +138,7 @@ void fishA::draw(void) {
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glDisableClientState(GL_COLOR_ARRAY);
     glDisableClientState(GL_NORMAL_ARRAY);
-    glDisable(GL_TEXTURE_2D);
+    glDisable(GL_TEXTURE_2D); 
     
     glPopMatrix();
 }
@@ -217,7 +254,7 @@ GLfloat fishA::normal[] ={
     0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
     // H				|					|					|
     0.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f
-};
+}; 
 
 GLfloat fishA::texels[] ={
     // 2					|						|						|
@@ -259,7 +296,7 @@ GLfloat fishA::texels[] ={
     // H					|						|						|
     20.f / 128.f, 69.f / 128.f, 5.f / 128.f, 69.f / 128.f, 20.f / 128.f, 69.f / 128.f
 };
-
+/*
 GLfloat fishA::colours[] ={
     // 2				|					|					|
     0.0f, 0.0f, 0.2f, 0.0f, 0.0f, 0.2f, 0.0f, 0.2f, 0.8f,
@@ -300,3 +337,5 @@ GLfloat fishA::colours[] ={
     // H				|					|					|
     0.0f, 0.0f, 0.2f, 0.0f, 0.2f, 0.8f, 0.0f, 0.0f, 0.2f
 };
+
+ */

@@ -10,8 +10,17 @@
 class fishA : public Renderable {
 public:
     fishA();
+    fishA(float posx, float posy, float posz,float velx, float vely, float velz);
     virtual void draw();
     void printXYZ(void);
+    
+    void setPos(float nx, float ny, float nz) {
+        x=nx; y=ny; z=nz;
+    }
+    
+    void setSpeed(float nx, float ny, float nz) {
+        xInc=nx; yInc=ny; zInc=nz;
+    }
 
     GLfloat x, y, z; // position of object
     GLfloat rx,ry, rz; // rotation angle of object
@@ -30,7 +39,7 @@ private:
     static GLfloat vertex[]; /// vertex array data
     static GLfloat normal[]; /// normals for each vertex
     static GLfloat texels[]; /// texture coords for each vertex
-    static GLfloat colours[]; /// colour array data
+    GLfloat colours[171]; /// colour array data
     static GLfloat material[4];
     static GLfloat shininess;
 

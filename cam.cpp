@@ -11,9 +11,9 @@ Cam::~Cam() {
 
 // Resets the camera position to default position and tilt
 void Cam::reset(void) {
-    distance=15;
+    distance=35;
     verticalTilt=0;
-    horizontalAngle=0;
+    horizontalAngle=-5;
     
 /*    glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -42,13 +42,13 @@ void Cam::position(void) {
 }
 
 // Decrements the distance to origin (zoom in)
-void Cam::dec(void) {
-    distance--;
+void Cam::dec(float value) {
+    distance-=value;
 }
 
 // Increments the distance to origin (zoom out)
-void Cam::inc(void) {
-    distance++;
+void Cam::inc(float value) {
+    distance+=value;
 }
 
 // Adjusts the camera rotation around the Y axis

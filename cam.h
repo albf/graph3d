@@ -21,8 +21,8 @@ public:
         void printCamValues(void);   // debug
 	void reset(void);	// resets the camera to default position
 	void position(void);	// sets up camera at current position
-	void dec(void);	// decreases distance to origin
-	void inc(void);	// increases distance to origin
+	void dec(float value);	// decreases distance to origin
+	void inc(float value);	// increases distance to origin
 	void clockwise(void);	// rotate scene clockwise
 	void anticlockwise(void);	// rotate scene anticlockwise
 	void tiltup(void);	// tilts camera upwards

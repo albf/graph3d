@@ -9,6 +9,14 @@
 #include "viewer.h"
 #include "renderable.h"
 #include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include "light.h"
+
+
+static GLfloat fogColor[4] = {0.0, 0.5, 0.55, 1.0};
 
 using namespace std;
 
@@ -65,7 +73,21 @@ void Viewer::init() {
     }
 
     // Turn on timer, each 500 ms timerEvent will be called
-    startTimer(100);
+
+    glClearColor(0.05, 0.1, 0.4, 1.0);  // blue green background colour
+    
+    // fog
+    glFogi(GL_FOG_MODE, GL_EXP);
+    glFogfv(GL_FOG_COLOR, fogColor);
+    glFogf(GL_FOG_DENSITY, 0.01);
+    glHint(GL_FOG_HINT, GL_NICEST);
+    glEnable(GL_FOG);
+    
+    //light 
+    glEnable(GL_LIGHTING);
+    //addRenderable(new Light());
+    
+    startTimer(50);
 }
 
 // Timed event, called at the time defined in viewer::init() functio.)
@@ -82,12 +104,13 @@ void Viewer::draw() {
     clear();
     
     // Light -- (Temp?))
-    glLightfv(GL_LIGHT1, GL_POSITION, position1);
-    glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, spotAngle);
-    glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, direction1);
+    //glLightfv(GL_LIGHT1, GL_POSITION, position1);
+    //glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, spotAngle);
+    //glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, direction1);
     
     camera.position();
-    glLightfv(GL_LIGHT0, GL_POSITION, position0);
+    camera.dec(0.03);
+    //glLightfv(GL_LIGHT0, GL_POSITION, position0);
     
 
     list<Renderable *>::iterator it;
@@ -95,7 +118,7 @@ void Viewer::draw() {
         (*it)->draw();
     }
 
-    swapBuffers();
+    swapBuffers();   
 }
 
 void Viewer::animate() {
