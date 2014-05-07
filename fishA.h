@@ -18,7 +18,6 @@ public:
 
     static unsigned int textures[2]; /// texture id array
     static GLUquadricObj *quadric; /// quadric object for all renderables
-
 private:             	
     GLfloat tailAngle;
     GLfloat tailAngleCutOff;
@@ -26,7 +25,6 @@ private:
     static GLfloat vertex[]; /// vertex array data
     static GLfloat normal[]; /// normals for each vertex
     static GLfloat texels[]; /// texture coords for each vertex
-    GLfloat colours[171]; /// colour array data
     static GLfloat material[4];
     static GLfloat shininess;
 
