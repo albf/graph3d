@@ -1,11 +1,11 @@
 #include <qapplication.h>
 #include "viewer.h"
-#include "lightsMaterials.h"
 #include "fishA.h"
 #include "fishB.h"
 #include "crab.h"
 #include "seaFloor.h"
 #include "unistd.h"
+#include "light.h"
 #include <iostream>
 
 using namespace std;
@@ -50,10 +50,13 @@ int main(int argc, char** argv) {
 
 
     // #3 Some Crabs
-    //    viewer.addRenderable(new crab());
     viewer.addRenderable(new crab(0, 0, 0.04, 0.02));
-    viewer.addRenderable(new crab(0, +15, 0.01, 0.01));
+    viewer.addRenderable(new crab(0, +15, 0.01, 0.04));
     viewer.addRenderable(new crab(0, +20, 0.02, 0.01));
+    viewer.addRenderable(new crab(-5, 2, -0.03, 0.01));
+    viewer.addRenderable(new crab(-10, -4, +0.02, -0.04));
+    viewer.addRenderable(new crab(15, 2, +0.07, 0.01));
+
 
 
     // #4 Group of FishB
@@ -98,7 +101,6 @@ int main(int argc, char** argv) {
                                     0.0 ,0.04, +0.08,
                                     1,1,0));
     
-//    viewer.addRenderable(new fishA());
     
     // #7 Diver and Bubbles : added inside viewer, following lines are for debug only
     
@@ -106,7 +108,11 @@ int main(int argc, char** argv) {
     //viewer.addRenderable(new Bubble(0, 0, 20, 0.5, 0.1));
     
     // #8 Pacman
-    // added in the viewer, after some time has passed    
+    // added in the viewer, after some time has passed 
+    
+    // #9 Lights
+    // Simples lights.
+    //viewer.addRenderable(new )
     
     
     // Make the viewer window visible on screen.

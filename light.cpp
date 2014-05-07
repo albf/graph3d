@@ -49,7 +49,7 @@ void Light::apply(void)
 }
 
 void Light::draw() {
-/*    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
 
     GLfloat specular[] = {1.0f, 1.0f, 1.0f, 1.0f};  // set light as diffuse
@@ -60,15 +60,4 @@ void Light::draw() {
     glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
     
     glEnable(GL_LIGHT0);
-*/    
-    glPushMatrix(); 
-    
-//    GLfloat white[] = {1.0f, 1.0f, 1.0f, 1.0f};
-//    glMaterialfv(GL_FRONT, GL_DIFFUSE, white);
-    glTranslatef(0,3,0);
-    glCallList(dList);
-    
-    glPopMatrix();
-
-
 }
