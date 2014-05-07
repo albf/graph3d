@@ -27,8 +27,6 @@ int main(int argc, char** argv) {
 
 
     //viewer.addRenderable(new LightsMaterials());
-    fishA fish;
-    fish.printXYZ();
 
     // #1 Group of FishB
     x = 0;
@@ -52,9 +50,11 @@ int main(int argc, char** argv) {
 
 
     // #3 Some Crabs
-    viewer.addRenderable(new crab());
-    viewer.addRenderable(new crab(5, 5, 0.04, 0.02));
-    viewer.addRenderable(new crab(-10, -5, -0.02, 0.07));
+    //    viewer.addRenderable(new crab());
+    viewer.addRenderable(new crab(0, 0, 0.04, 0.02));
+    viewer.addRenderable(new crab(0, +15, 0.01, 0.01));
+    viewer.addRenderable(new crab(0, +20, 0.02, 0.01));
+
 
     // #4 Group of FishB
     x = -5;
@@ -77,10 +77,29 @@ int main(int argc, char** argv) {
                 0.1, 0, 0,
                 0.8, 0.2, 0.2));
 
-    
-    // #6 Different Fish
-    viewer.addRenderable(&fish);
 
+    // #6 Different Fish
+    viewer.addRenderable(new fishA(0, 0, 15,
+            -0.07, 0.00, -0.05,
+            1, 0, 0));
+
+    viewer.addRenderable(new fishA(0, 1, 25,
+            -0.09, 0.00, -0.05,
+            0.1, 0.6, 0.3));
+
+    viewer.addRenderable(new fishA(6, -2, 0,
+            0.01, +0.01, -0.05,
+            0.3, 0.2, 0.7));
+    viewer.addRenderable(new fishA(-16,+4, -5,
+                                    -0.01,0.00, +0.1,
+                                    1,1,1));
+    
+    viewer.addRenderable(new fishA(-25,-1,-7,
+                                    0.0 ,0.04, +0.08,
+                                    1,1,0));
+    
+//    viewer.addRenderable(new fishA());
+    
     // #7 Diver and Bubbles : added inside viewer, following lines are for debug only
     
     //viewer.addRenderable(new Diver(5));

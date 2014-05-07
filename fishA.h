@@ -10,7 +10,7 @@
 class fishA : public Renderable {
 public:
     fishA();
-    fishA(float posx, float posy, float posz,float velx, float vely, float velz);
+    fishA(float posx, float posy, float posz,float velx, float vely, float velz, float A, float B, float C);
     virtual void draw();
 
     GLfloat rx,ry, rz; // rotation angle of object
@@ -20,13 +20,15 @@ public:
     static GLUquadricObj *quadric; /// quadric object for all renderables
 private:             	
     GLfloat tailAngle;
-    GLfloat tailAngleCutOff;
-    GLfloat tailAngleInc;
+    GLfloat angleMax;
+    int modeTail;
+
     static GLfloat vertex[]; /// vertex array data
     static GLfloat normal[]; /// normals for each vertex
     static GLfloat texels[]; /// texture coords for each vertex
     static GLfloat material[4];
     static GLfloat shininess;
+    float cpos1, cpos2, cpos3;  // colors;
 
     void drawSide();
 };

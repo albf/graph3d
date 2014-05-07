@@ -7,42 +7,57 @@
 #include "crab.h"
 #define PI 3.14159
 
-// setup the static variables
+// static variables
 GLfloat crab::material[4] = {0.5f, 0.5f, 0.5f, 1.f};
 GLfloat crab::shininess = 50.f;
 
+// default constructor
 crab::crab() {
-    x = 1;    y = -3;    z = +25;
+    x = 1;    y = -5;    z = +25;
     xInc = 0.01;    yInc = 0.0;    zInc = +0.05;
     
     quadric = gluNewQuadric();
     oldIncrement=sqrt((xInc*xInc)+(zInc*zInc))*0.1;
 }
 
+// constructor with parameters
 crab::crab(float posx, float posz,float velx, float velz) {
-    x = posx; y = -3; z=posz;
+    x = posx; y = -5; z=posz;
     xInc = velx; yInc = 0.0; zInc = velz;
     quadric = gluNewQuadric();
     oldIncrement=sqrt((xInc*xInc)+(zInc*zInc))*0.1;
 }
 
+// method used to update the position of the crab
+// It tries to put some smooth random in the movements of the crabs.
 void crab::animate(void) {
     float speed = sqrt((xInc*xInc)+(zInc*zInc));
-    float Increment = (2*maxIncrement*rand()/RAND_MAX)-maxIncrement;
+    maxIncrement = speed*0.1;
+    float Increment = (2*maxIncrement*((float)rand()/(float)RAND_MAX))-maxIncrement;
     float zdelta;
     
     Increment = (oldIncrement*9+Increment)/10;
-
-    xInc=xInc+Increment;
-    zdelta = sqrt((speed*speed)-(xInc*xInc));
-    if(zInc>=0) 
-        zInc=zdelta;
-    else
-        zInc=-zdelta; 
     
-    oldIncrement=Increment;
+    xInc=xInc+Increment;
+    //speed = sqrt((xInc*xInc)+(zInc*zInc));
+    if ((speed * speed)>(xInc * xInc)) {
+        zdelta = sqrt((speed * speed)-(xInc * xInc));
+        if (zInc >= 0)
+            zInc = +zdelta;
+        else
+            zInc = -zdelta;
+    }
+    
+    else {
+        zInc=0;
+        xInc=speed;
+    }
+    
+    
+    oldIncrement=Increment; 
 }
 
+// method used to modelize the crab
 void crab::draw(void) {
     // increment the crab position
     x += xInc;
@@ -52,20 +67,31 @@ void crab::draw(void) {
     glTranslatef(x, y, z); // move to where it is right now
     glRotatef(180, 0, 0, 1);
     
-    getCrossProduct(xInc, yInc, zInc, 0, 0, 1); // get cross product
-    //    std::cout << "getangle: " << getAngle(xInc,yInc,zInc,0,0,1) << std::endl;   // debug
-    glRotatef(getAngle(xInc, yInc, zInc, 0, 0, 1), xcp, ycp, zcp); // rotate to look to where it is moving
+  //  getCrossProduct(xInc, yInc, zInc, 0, 0, 1); // get cross product
+  //  glRotatef(getAngle(xInc, yInc, zInc, 0, 0, 1), xcp, ycp, zcp); // rotate to look to where it is moving
+    //glRotatef(180, xInc, yInc, zInc-(vectorDistance(xInc,yInc, zInc)));
+    //glRotatef(180,)
+    std::cout << "Angle : " << getAngle(xInc,yInc,zInc,0,0,1) << std::endl;
+ //   std::cout << "vector : " << x << " " << y << " " << z << std::endl;
     
-    // get our pinky colour
+     if((xcp!=0.0)||(ycp!=0.0)||(zcp!=0.0)) {            // orient fish to look where it's going
+        glRotatef(-getAngle(xInc,yInc,zInc,0,0,1), 0, 1.0, 0); 
+    }
+    else {
+        if(getAngle(xInc,yInc,zInc,0,0,1)>179.5)
+            glRotatef(180.0, 0, 1.0, 0);
+    }
+    
+    
     glColor3f(1.0f, 0.45f, 0.45f);
 
-    // draw crab body (squashed along Y axis
+    // body
     glPushMatrix();
     glScalef(1.0f, 0.5f, 1.0f);
     gluSphere(quadric, 0.3f, 16, 16);
     glPopMatrix();
 
-    // draw all of the legs
+    // legs
     glPushMatrix();
     drawLegs();
     glScalef(-1.f, 1.f, 1.f);
@@ -74,21 +100,20 @@ void crab::draw(void) {
     glFrontFace(GL_CCW);
     glPopMatrix();
 
-    // set to use our black colour
     glColor3f(0.0f, 0.0f, 0.0f);
 
-    // draw left crab eye
+    // left eye
     glTranslatef(-0.06f, 0.0f, 0.3f);
     glutSolidSphere(0.05f, 12, 8);
 
-    // draw right crab eye
+    // right eye
     glTranslatef(0.12f, 0.0f, 0.0f);
     glutSolidSphere(0.05f, 12, 8);
 
     glPopMatrix();
 }
 
-// Draws a leg using an angle between the two bones
+// Draws a leg using an angle
 void crab::drawLeg(GLfloat jointAngle, GLfloat jointOffset)
 {
 	// draw first part of a leg
@@ -116,7 +141,6 @@ void crab::drawLeg()
 // Draws complete set of legs (side legs)
 void crab::drawLegs()
 {
-	// set a darker pinky colour for legs
 	glColor3f(1.0f, 0.55f, 0.55f);
 
 	// draw three side legs
@@ -129,17 +153,17 @@ void crab::drawLegs()
 		glPopMatrix();
 	}
 
-	// draw fourth leg (the straight and bent downwards leg)
+	// draw fourth leg
 	glPushMatrix();
 	glTranslatef(0.0f, 0.0f, -0.00f);
 	glRotatef(-65.0f, -0.2f, 1.0f, 0.0f);
 	drawLeg(0.0f, 0.0f);
 	glPopMatrix();
 
-	// set a light pinky colour for front legs
+	// alteration of the color
 	glColor3f(1.0f, 0.65f, 0.65f);
 
-	// front leg (arm)
+	// front leg
 	glPushMatrix();
 	glTranslatef(0.0f, 0.0f, 0.0f);
 	glRotatef(55.0f, 0.0f, 1.0f, 0.0f);
@@ -147,7 +171,7 @@ void crab::drawLegs()
 	drawLeg();
 	glPopMatrix();
 
-	// front clippers on the front leg (arm)
+	// arms
 	glPushMatrix();
 	glTranslatef(0.24f, 0.0f, 0.725f);
 	glRotatef(-15.0f, 0.0f, 1.0f, 0.0f);

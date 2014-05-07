@@ -11,12 +11,8 @@
 GLfloat fishA::material[4] = {1.f, 1.f, 1.f, 1.f};
 GLfloat fishA::shininess = 120.f;
 
-fishA::fishA() {
-        // Tail Animation
-    	tailAngle = 40.0f;
-	tailAngleCutOff = 20.0f;
-	tailAngleInc = 1.0f;
-        
+// Debug only, the other one should be used
+fishA::fishA() {        
         // Fish Speed
         xInc = 0.0;
         yInc = 0.1;
@@ -26,17 +22,33 @@ fishA::fishA() {
         x = 0;
         y = 0;
         z = -15;
+                
+        // Tail Animation
+    	tailAngle = 40.0f;
+        modeTail=0;
+        angleMax = 45;
 }
 
-fishA::fishA(float posx, float posy, float posz,float velx, float vely, float velz) {
- 
-    x = posx; y=posy; z=posz;
-    xInc = velx; yInc = vely; zInc = velz;
+// position, speed and color as parameters
+
+fishA::fishA(float posx, float posy, float posz, float velx, float vely, float velz, float A, float B, float C) {
+
+    x = posx;
+    y = posy;
+    z = posz; // position
     
+    xInc = velx;
+    yInc = vely;
+    zInc = velz; // speed
+    
+    cpos1 = A;
+    cpos2 = B;
+    cpos3 = C; // color
+
     // Tail Animation
-    tailAngle = 0.0f;
-    tailAngleCutOff = 20.0f;
-    tailAngleInc = 1.0f;         
+    tailAngle = 40.0f;
+    modeTail = 0;
+    angleMax = 45;
 }
 
 void fishA::draw(void) {
@@ -45,12 +57,26 @@ void fishA::draw(void) {
     y += yInc;
     z += zInc;
     
-    glColor4f(1, 0.2, 0.2, 1); // semi-transparent blue bubble
+    glColor4f(cpos1, cpos2, cpos3,1); // semi-transparent blue bubble
 
     glPushMatrix();
     glTranslatef(x,y,z);
-    getCrossProduct(xInc,yInc,zInc,1,0,0);        // get cross product
-    glRotatef(getAngle(1,0,0,xInc,yInc,zInc), xcp, ycp, zcp);    // rotate to look to where it is moving
+    getCrossProduct(xInc,yInc,zInc,-1,0,0);        // get cross product
+ 
+ //   glRotatef(getAngle(xInc,yInc,zInc,1,0,0), xcp, ycp, zcp);    // rotate to look to where it is moving
+ 
+    if((xcp!=0.0)||(ycp!=0.0)||(zcp!=0.0)) {            // orient fish to look where it's going
+        glRotatef(-getAngle(xInc,yInc,zInc,-1,0,0), xcp, ycp, zcp); 
+    }
+    else {
+        if(getAngle(xInc,yInc,zInc,-1,0,0)>179.5)
+            glRotatef(180.0, 0, 1.0, 0);
+    }
+    
+//    getCrossProduct(-1,0.2,0,1,0,0);        // get cross product
+//    glRotatef(getAngle(-1,0.2,0,1,0,0), xcp, ycp, zcp);    // rotate to look to where it is moving
+//    std::cout << "Angle : " << getAngle(xInc,yInc,zInc,-1,0,0) << std::endl;
+//    std::cout << "vector : " << xcp << " " << ycp << " " << zcp << std::endl;
     
     // set up the material properties (only front needs to be set)
     glMaterialfv(GL_FRONT, GL_AMBIENT, material);
@@ -90,11 +116,23 @@ void fishA::draw(void) {
     drawSide();
 
     // work out new fish tail position
-    GLfloat pt = sin(tailAngle * 3.14159 / 180);
+    /*GLfloat pt = sin(tailAngle * 3.14159 / 180);
     tailAngle += tailAngleInc;
     if (tailAngle < -tailAngleCutOff || tailAngle > tailAngleCutOff)
-        tailAngleInc *= -1;
-
+        tailAngleInc *= -1; */
+    if(modeTail==0) {
+        tailAngle = tailAngle+5;
+        if(tailAngle>=angleMax)
+            modeTail=1;
+    }
+    else {
+        tailAngle = tailAngle-5;
+        if (tailAngle<=-angleMax)
+            modeTail=0;
+    }
+    
+    GLfloat pt = sin(tailAngle * PI / 180);
+    
     // draw one side of flexible part of the tail
     vertex[143] = vertex[152] = vertex[149] = vertex[158] = vertex[167] = pt;
     glDrawArrays(GL_TRIANGLES, 6 + (4 * 6) + (3 * 5), 3 * 4);
