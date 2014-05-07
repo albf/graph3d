@@ -29,18 +29,8 @@ public:
     Light(void);
     ~Light(void);
 
-    void apply(void);
     void draw(void);
-    void update(void);
-
-    GLfloat lightPosition[4];
-    GLfloat diffuseProperty[3];
-    GLfloat ambiantProperty[4];
-    GLfloat speculaProperty[4];
-    GLfloat materialDiffuseProp[4];
-
-    GLuint dList;            	
-
+    float time;
 };
 
 

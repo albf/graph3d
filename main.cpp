@@ -112,7 +112,7 @@ int main(int argc, char** argv) {
     
     // #9 Lights
     // Simples lights.
-    //viewer.addRenderable(new )
+    viewer.addRenderable(new Light());
     
     
     // Make the viewer window visible on screen.

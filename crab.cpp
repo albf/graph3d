@@ -66,15 +66,15 @@ void crab::draw(void) {
     glPushMatrix();
     glTranslatef(x, y, z); // move to where it is right now
     glRotatef(180, 0, 0, 1);
-    
-  //  getCrossProduct(xInc, yInc, zInc, 0, 0, 1); // get cross product
-  //  glRotatef(getAngle(xInc, yInc, zInc, 0, 0, 1), xcp, ycp, zcp); // rotate to look to where it is moving
+
+    //  getCrossProduct(xInc, yInc, zInc, 0, 0, 1); // get cross product    // debug
+    //  glRotatef(getAngle(xInc, yInc, zInc, 0, 0, 1), xcp, ycp, zcp); // rotate to look to where it is moving
     //glRotatef(180, xInc, yInc, zInc-(vectorDistance(xInc,yInc, zInc)));
     //glRotatef(180,)
-    std::cout << "Angle : " << getAngle(xInc,yInc,zInc,0,0,1) << std::endl;
- //   std::cout << "vector : " << x << " " << y << " " << z << std::endl;
-    
-     if((xcp!=0.0)||(ycp!=0.0)||(zcp!=0.0)) {            // orient fish to look where it's going
+    //   std::cout << "Angle : " << getAngle(xInc,yInc,zInc,0,0,1) << std::endl;
+    //   std::cout << "vector : " << x << " " << y << " " << z << std::endl;
+
+    if ((xcp != 0.0) || (ycp != 0.0) || (zcp != 0.0)) { // orient fish to look where it's going
         glRotatef(-getAngle(xInc,yInc,zInc,0,0,1), 0, 1.0, 0); 
     }
     else {
