@@ -9,6 +9,7 @@
 static GLuint gridTex;
 static GLubyte* grid;
 
+// default constructor
 seaFloor::seaFloor() {
     x = 0;
     y = 0;
@@ -16,6 +17,7 @@ seaFloor::seaFloor() {
     i=0;
 }
 
+// initiation of the parameters and the texture
 void seaFloor::init(Viewer &v) {
      /* read in image for texture */
     grid = readPPMfile("seafloor.ppm");
@@ -33,18 +35,18 @@ void seaFloor::init(Viewer &v) {
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 128, 128, 0, GL_RGB, GL_UNSIGNED_BYTE, grid);
 }
 
+// virtual draw method
 void seaFloor::draw(void) {
     
- //   i++;
     glPushMatrix();
-    /* turn on texture mapping and use the texture object created at initialization */
+    // use the texture
     glRotatef(90,1,0,0);
     glTranslatef(0,0,5);
     glEnable(GL_TEXTURE_2D);
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
     glBindTexture(GL_TEXTURE_2D, gridTex);
 
-    /* texture coordinates place 5x5 copies of the texture on the rectangle */
+    // texture coordinates place the texture on the edges of the rectangle
     glBegin(GL_QUADS);
     glTexCoord2f(-7.0, -7.0);
     glVertex3f(x - 35.0, y - 35.0, 0.0);
@@ -60,6 +62,7 @@ void seaFloor::draw(void) {
 
 }
 
+// read the texture file
 GLubyte* seaFloor::readPPMfile(char* filename) {
   FILE* input;
   int w,h,max,i,j,k;
